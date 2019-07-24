@@ -1,4 +1,8 @@
 'use strict'
+// Load Particle.js
+particlesJS.load('particles-js', 'scripts/particles.json', function () {
+  console.log('callback - particles.js config loaded')
+})
 
 document.addEventListener('DOMContentLoaded', e => {
   let date = new Date()
@@ -38,6 +42,22 @@ document.addEventListener('DOMContentLoaded', e => {
     val = val.toLowerCase()
   }
 
+  // Add an event listener for the organisation input field
+  const organisationExists = document.querySelector('#yes-organisation')
+  const organisationDontExists = document.querySelector('#no-organisation')
+
+  const organisationQuestion = document.querySelector('#org')
+  const organisationTextArea = document.querySelector('input#organisation')
+
+  organisationExists.addEventListener('click', e => {
+    organisationQuestion.style.display = 'block'
+    organisationTextArea.setAttribute('required', 1)
+  })
+
+  organisationDontExists.addEventListener('click', e => {
+    organisationQuestion.style.display = 'none'
+  })
+
   //   Submit the form
   const form = document.querySelector('form')
   // On Form Submit
@@ -73,26 +93,26 @@ document.addEventListener('DOMContentLoaded', e => {
           return response.json()
         })
         .then(data => {
-          //   console.log(data)
-          if (data === 'user_exists') {
-            swal(
-              'Already Submitted',
-              'You have already submitted your impact story.',
-              'warning'
-            )
-            setTimeout(() => {
-              window.location = 'https://awlo.org/youthsummit'
-            }, 3000)
-          } else if (data === 'success') {
-            swal(
-              'Submission Successful!',
-              'Your story submission was successful.',
-              'success'
-            )
-            setTimeout(() => {
-              window.location = 'https://awlo.org/youthsummit'
-            }, 3000)
-          }
+        //   console.log(data)
+            if (data === 'user_exists') {
+              swal(
+                'Already Registered',
+                'You have already registered this delegate.',
+                'warning'
+              )
+              setTimeout(() => {
+                window.location = 'https://awlo.org/youthsummit'
+              }, 3000)
+            } else if (data === 'success') {
+              swal(
+                'Registration Successful!',
+                'Your delegate registration was successful.',
+                'success'
+              )
+              setTimeout(() => {
+                window.location = 'https://awlo.org/youthsummit'
+              }, 3000)
+            }
         })
         .catch(error => {
           console.log('The Request has Failed', error)
